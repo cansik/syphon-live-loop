@@ -1,0 +1,34 @@
+group 'ch.bildspur.liveloop'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.1.0'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+
+    compile files('lib/processing/core/library/core.jar')
+    compile files('lib/processing/core/library/gluegen-rt-natives-macosx-universal.jar')
+    compile files('lib/processing/core/library/gluegen-rt.jar')
+    compile files('lib/processing/core/library/jogl-all-natives-macosx-universal.jar')
+    compile files('lib/processing/core/library/jogl-all.jar')
+
+    compile files('lib/plugins/controlP5/controlP5.jar')
+
+    compile files('lib/plugins/syphon/Syphon.jar')
+    compile files('lib/plugins/syphon/jsyphon.jar')
+}

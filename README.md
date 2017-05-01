@@ -1,2 +1,2 @@
-# syphon-live-loop
-Live loop software for syphon.
+# Syphon Live Loop
+A syphon live loop software.
