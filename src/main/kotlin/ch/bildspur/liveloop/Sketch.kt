@@ -40,6 +40,8 @@ class Sketch : PApplet() {
 
     lateinit var cp5: ControlP5
 
+    lateinit var buffer : LoopTextureBuffer
+
     init {
 
     }
@@ -65,6 +67,9 @@ class Sketch : PApplet() {
         outputCanvas = createGraphics(OUTPUT_WIDTH, OUTPUT_HEIGHT, PConstants.P2D)
     }
 
+    var recording = true
+    var playing = false
+
     override fun draw() {
         background(55f)
 
@@ -78,11 +83,27 @@ class Sketch : PApplet() {
         // check if input size changed
         if(input.width != outputCanvas.width || input.height != outputCanvas.height) {
             outputCanvas = createGraphics(input.width, input.height, P2D)
+            buffer = LoopTextureBuffer(this, input.width, input.height, 5 * 60)
+        }
+
+        if(recording) {
+            buffer.record(input)
+
+            if(buffer.isFull) {
+                recording = false
+                println("recording off")
+                playing = true
+            }
         }
 
         // save frame
         outputCanvas.draw {
-            it.image(input, 0f, 0f)
+
+            if(playing)
+                it.image(buffer.current(), 0f, 0f)
+                else
+                it.image(input, 0f, 0f)
+
         }
 
         syphon.sendImageToSyphon(outputCanvas)
@@ -108,11 +129,20 @@ class Sketch : PApplet() {
         val h = 295f
         val w = 20f
 
-        cp5.addButton("bright pass")
+        cp5.addButton("record")
                 .setPosition(w, h)
                 .setSize(120, 15)
                 .onChange { e ->
-                    println("Hello")
+                    playing = false
+                    recording = true
+                    buffer.index = 0
+                }
+
+        cp5.addButton("live")
+                .setPosition(w + 100, h)
+                .setSize(120, 15)
+                .onChange { e ->
+                    playing = false
                 }
     }
 }
