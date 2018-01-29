@@ -83,7 +83,7 @@ class Sketch : PApplet() {
         // check if input size changed
         if(input.width != outputCanvas.width || input.height != outputCanvas.height) {
             outputCanvas = createGraphics(input.width, input.height, P2D)
-            buffer = LoopTextureBuffer(this, input.width, input.height, 5 * 60)
+            buffer = LoopTextureBuffer(this, input.width, input.height, 3 * 60)
         }
 
         if(recording) {
